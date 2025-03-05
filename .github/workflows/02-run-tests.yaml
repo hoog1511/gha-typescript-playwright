@@ -1,4 +1,4 @@
-name: test automation days
+name: run tests
 run-name: task 02
 
 on:
