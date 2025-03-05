@@ -1,4 +1,4 @@
-name: Basic Workflow  # The name of the workflow, which appears in the GitHub Actions UI.
+name: test automation days  # The name of the workflow, which appears in the GitHub Actions UI.
 run-name: task 01
 on: workflow_dispatch  # This defines the event that triggers the workflow. "workflow_dispatch" allows manual triggering.
 

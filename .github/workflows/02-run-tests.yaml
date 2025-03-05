@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: test automation days
 run-name: task 02
 
 on:
