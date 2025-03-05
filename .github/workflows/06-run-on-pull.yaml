@@ -1,0 +1,41 @@
+name: run on pull
+run-name: task 06
+
+on:
+  pull:
+    branches:
+      - main
+jobs:
+  basic-workflow:
+    name: Basic Workflow
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm  # Enables automatic caching for npm dependencies.
+
+      - name: Restore npm Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            npm-cache-${{ runner.os }}-
+
+      - name: Install npm
+        run: npm install
+
+      - name: Install playwright
+        run: npx playwright install --with-deps
+
+      - name: Run tests
+        run: npx playwright test  
+
+      - name: Print message
+        run: echo "Workflow executed successfully!"
