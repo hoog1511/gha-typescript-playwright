@@ -40,8 +40,8 @@ jobs:
       - name: display testreport
         uses: phoenix-actions/test-reporting@v15
         with:
-          path: 'playwright-report/index.html' # point to file location
           name: 'Publish test report (Playwright)' # the title of the report displayed in playwright
+          path: 'playwright-report/results.xml' # points to the file location
           reporter: java-junit  # Specifies the report format.
           list-tests: all  # Displays details of all tests in the summary.
           list-suites: all  # Displays test suite details.
