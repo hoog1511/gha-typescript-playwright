@@ -2,7 +2,7 @@ name: run on pull
 run-name: task 06
 
 on:
-  pull:
+  pull_request:
     branches:
       - main
 jobs:
