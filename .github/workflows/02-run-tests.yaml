@@ -1,0 +1,32 @@
+name: CI Pipeline
+run-name: task 02
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  basic-workflow:
+    name: Basic Workflow
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npx playwright install --with-deps
+
+      - name: Run tests
+        run: npx playwright test  
+
+      - name: Print message
+        run: echo "Workflow executed successfully!"
