@@ -1,0 +1,52 @@
+name: show report
+run-name: task 05
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  basic-workflow:
+    name: Basic Workflow
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm  # Enables automatic caching for npm dependencies.
+
+      - name: Restore npm Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            npm-cache-${{ runner.os }}-
+
+      - name: Install npm
+        run: npm install
+
+      - name: Install playwright
+        run: npx playwright install --with-deps
+
+      - name: Run tests
+        run: npx playwright test  
+
+      - name: display testreport
+        uses: phoenix-actions/test-reporting@v15
+        with:
+          path: playwright-report/index.html
+          name: 'Publish test report (Playwright)'
+          reporter: java-junit  # Specifies the report format.
+          list-tests: all  # Displays details of all tests in the summary.
+          list-suites: all  # Displays test suite details.
+          fail-on-error: true  # Fails the workflow if the report contains errors.
+          output-to: 'step-summary'  # Displays the report in the GitHub Actions summary tab.
+
+      - name: Print message
+        run: echo "Workflow executed successfully!"
