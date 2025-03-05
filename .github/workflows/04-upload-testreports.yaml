@@ -1,0 +1,53 @@
+name: upload testreports
+run-name: task 04
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  basic-workflow:
+    name: Basic Workflow
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm  # Enables automatic caching for npm dependencies.
+
+      - name: Restore npm Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            npm-cache-${{ runner.os }}-
+
+      - name: Install npm
+        run: npm install
+
+      - name: Install playwright
+        run: npx playwright install --with-deps
+
+      - name: Run tests
+        run: npx playwright test
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results/
+
+      - name: Print message
+        run: echo "Workflow executed successfully!"
